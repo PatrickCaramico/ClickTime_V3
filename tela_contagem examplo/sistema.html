@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon" href="./images/relogio_transparente.ico" type="images/relogio_transparente.icon">
+    
+    <title>Contagem Regressiva</title>
+</head>
+<body>
+
+    <div class="top-buttons">
+        <button id="btnVoltar" onclick="window.location = '/index.html'">To go back</button>
+    </div>
+    <div class="right-button">
+        <button class="button_theme" id="themeToggleBtn">Change Theme</button>
+    </div>
+
+    <div class="testeTitle">
+        <h1 id="nome">Welcome user</h1>
+    </div>
+
+    <div class="countdown">
+        <h1 class="main_title">ClickTime V3!</h1>
+        <div class="clock_main" id="timer">
+            <div class="number-container">
+                <div class="number-box">
+                    <span class="number" id="hours">00</span>
+                    <span class="label">Hours</span>
+                </div>
+                <div class="number-box">
+                    <span class="number" id="minutes">00</span>
+                    <span class="label">Minutes</span>
+                </div>
+                <div class="number-box">
+                    <span class="number" id="seconds">00</span>
+                    <span class="label">Seconds</span>
+                </div>
+            </div>
+        </div>
+    
+        <div class="date-time-inputs">
+            <input class="btn_input" type="date" id="targetDate">
+            <input class="btn_input" type="time" id="targetTime">
+        </div>
+
+        <div class="button">
+            <div class="action">
+                <button class="btn_button btn_stop" id="stopCountdown">Parar</button>
+            </div>
+
+            <div class="action">
+                <button class="btn_button btn_start" id="startCountdown">Iniciar</button>
+            </div>
+
+            <div class="action">
+                <button class="btn_button btn_reset" id="resetCountdown">Resetar</button>
+            </div>
+        </div>
+
+        <div class="theme-toggle">
+            <!-- <button class="button_theme" id="themeToggleBtn">Alternar Tema</button> -->
+        </div>
+
+        <div id="message" style="display: none;">O tempo acabou!</div>
+        <audio id="audio" src="./assets/efeito sono_discord.mp4" preload="auto"></audio>
+    </div>
+    <script src="script.js"></script>
+    <script src="../assets/Js/login.js"></script>
+</body>
+</html>

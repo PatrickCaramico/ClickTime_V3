@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS RESET E VARIABLES -->
+    <link rel="stylesheet" href="./assets/css/styles/reset.css">
+    <link rel="stylesheet" href="./assets/css/styles/variables.css">
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="./assets/css/container_cadastro.css">
+    <link rel="stylesheet" href="./assets/css/home_cadastro.css">
+    <link rel="stylesheet" href="./assets/css/rodape.css">
+    <link rel="shortcut icon" href="./assets/images/ClickTimeV3.svg" type="image/svg+xml">
+    <title>ClickTime | V3</title>
+</head>
+<body>
+    <div class="container__geral">
+        <header class="cabecalho">
+            <h2 class="cabecalho__titulo">ClickTime Sistema Cadastro | V3</h2>
+        </header>
+        
+        <div class="cadastro-wrapper">
+            <img class="left-cadastro-image" src="./assets/images/Work_TimeV3.svg" alt="Work_TimeV3">
+            <div class="right-cadastro">
+                <main class="container__home">
+                    <h2 class="formulario__titulo">Bem Vindo ao ClickTime V3!</h2>
+                    <form class="formulario__cadastro" id="cadastroForm">
+                        <fieldset>
+                            <legend>Cadastro</legend>
+                            <div class="inputBox">
+                                <input type="text" name="nome" id="nome" class="inputUser" required>
+                                <label for="nome" class="labelInput">Nome e Sobrenome: </label>
+                            </div>
+                            <div class="inputBox">
+                                <input type="text" name="username" id="username" class="inputUser" required>
+                                <label for="username" class="labelInput">Nome do Usuário: </label>
+                            </div>
+                            <div class="inputBox">
+                                <input type="password" name="senha" id="senha" class="inputUser" required>
+                                <label for="senha" class="labelInput">Senha: </label>
+                            </div>
+                        </fieldset>
+                        <button type="button" class="btn-cadastro" onclick="cadastrar()">Cadastre-se</button>
+                        <button type="button" class="btn-voltar" onclick="window.location.href='/index.html'">Voltar</button>
+                    </form>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <footer class="rodape">
+        <p class="rodape__texto">ClickTime &copy; 2024! Todos os direitos reservados. By Patrick Caramico</p>
+        <a href="https://github.com/PatrickCaramico" class="rodape__imagem">
+            <img src="./assets/images/github.svg" alt="Acesse meu Github">
+        </a>
+        <a href="https://www.linkedin.com/in/patrickcaramico/" class="rodape__imagem">
+            <img src="./assets/images/Icon_linkedinV3.svg" alt="Acesse meu Linkedin">
+        </a>
+    </footer>
+
+    <script src="./assets/Js/login.js"></script>
+</body>
+</html>

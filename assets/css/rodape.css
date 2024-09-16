@@ -1,0 +1,31 @@
+/* Area Import CSS */
+@import url('../css/styles/variables.css');
+
+.rodape {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    background: var(--Background-fundo);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    overflow-x: hidden; 
+}
+
+.rodape__texto {
+    color: var(--Cor-primaria);
+    font-family: var(--Font-Principal);
+    font-size: 0.9rem;
+}
+
+.rodape__imagem {
+    margin-left: 0.55rem;
+    width: 2rem;
+}
+
+.rodape__imagem img {
+    width: 24px;
+}

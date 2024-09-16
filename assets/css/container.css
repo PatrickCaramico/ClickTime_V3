@@ -1,0 +1,32 @@
+/* Area de Import CSS */
+@import url('./styles/variables.css');
+
+.container__geral {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden; 
+}
+
+.cabecalho {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: var(--Preto);
+    text-align: center;
+    padding: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.cabecalho__titulo {
+    color: var(--Cor-primaria);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}

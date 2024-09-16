@@ -1,0 +1,239 @@
+body {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #201b2c;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.countdown {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+  font-size: 24px;
+}
+
+#timer {
+  font-size: 2rem;
+  margin-top: 20px;
+}
+
+#message {
+  display: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: red;
+  margin-top: 10px;
+}
+
+.main_title {
+  font-size: 50px;
+  color: white;
+  letter-spacing: 2px;
+}
+
+.clock_main {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.1);
+}
+
+.number-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.number-box {
+  text-align: center;
+}
+
+.number {
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+}
+
+.label {
+  font-size: 1rem;
+  color: white;
+}
+
+.date-time-inputs {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn_input {
+  margin: 5%;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #3498db;
+  border-radius: 5px;
+  background-color: transparent;
+  color: #3498db;
+  cursor: pointer;
+  outline: none;
+}
+
+.date-time-inputs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+}
+
+.btn_input[type="date"],
+.btn_input[type="time"] {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 2px solid #3498db;
+  border-radius: 5px;
+  background-color: transparent;
+  color: white;
+  outline: none;
+}
+
+.btn_button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  width: 200px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s;
+}
+
+.btn_button:hover {
+  background-color: #3498db;
+}
+
+.btn_button:focus {
+  background-color: #3498db;
+}
+
+.button {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.action {
+  flex: 1;
+  text-align: center;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+#themeToggleBtn {
+  background-color: #3498db;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+#themeToggleBtn:hover {
+  background-color: #2980b9;
+}
+
+#themeToggleBtn:focus {
+  background-color: #f0f0f0;
+}
+
+.light-theme {
+  background-color: #f0f0f0;
+  color: black;
+}
+
+.light-theme .main_title {
+  color: black;
+}
+
+.light-theme .clock_main {
+  background-color: #faf3f2;
+}
+
+.light-theme .label {
+  color: black;
+}
+
+.light-theme .btn_input {
+  color: black;
+}
+
+.light-theme .btn_button {
+  background-color: #3498db;
+  color: black;
+}
+
+.light-theme .testeTitle{
+    color: black;
+}
+
+.light-theme .btn_button:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.light-theme .btn_button:hover {
+  background-color: #2980b9;
+}
+
+#btnVoltar {
+  background-color: #3498db;
+  color: black;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+#btnVoltar:hover {
+    background-color: #2980b9;
+}
+
+.top-buttons {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.right-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.testeTitle {
+  position: absolute;
+  top: 10px;
+  color: white;
+}

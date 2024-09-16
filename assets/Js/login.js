@@ -30,7 +30,7 @@ function cadastrar() {
 
     // Exibir alerta de sucesso e redirecionar
     alert('Cadastro realizado com sucesso! Clique em \'OK\' e faça login.');
-    window.location.href = '/index.html'; // Redirecionar para index.html
+    window.location.href = './index.html'; // Redirecionar para index.html
 }
 
 // Função para realizar o login

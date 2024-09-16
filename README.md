@@ -28,12 +28,12 @@
 
 ### Screenshot
 
-<img src="imagens projeto/Tela Inicio.png" align="left" height="500px"/>
-<img src="imagens projeto/Verificação.png" aligh="right" height="500px"/>
+<img src="Images Readme/Tela_login.png" align="left" height="500px"/>
+<img src="Images Readme/Tela_cadastro.png" aligh="right" height="500px"/>
 
 ### Preview
 
-<img src="imagens projeto/Sistema V3.gif"/>
+<img src="Images Readme/ClickTimeV3.gif"/>
 
 ## My Code
 
@@ -42,17 +42,17 @@
 ### HTML
 
 <p>Código HTML</p>
-<img align="center" src="imagens projeto/HTML.png" width="900px"/>
+<img align="center" src="Images Readme/Tela_HTML.png" width="900px"/>
 
 ### CSS
 
 <p>Código CSS</p>
-<img align="center" src="imagens projeto/CSS.png" width="900px"/>
+<img align="center" src="Images Readme/Tela_CSS.png" width="900px"/>
 
 ### Javascript
 
 <p>Código Javascript</p>
-<img align="center" src="imagens projeto/Javascript.png" width="900px"/>
+<img align="center" src="Images Readme/Tela_js.png" width="900px"/>
 
 ## Process
 
@@ -80,4 +80,4 @@
 ### Link
 
 **Link para acessar o projeto:**
-https://sistema-alphav2.netlify.app/index.html
+[https://sistema-alphav2.netlify.app/index.html](https://clicktimev3.netlify.app/cadastro.html)

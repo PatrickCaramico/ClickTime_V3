@@ -23,16 +23,9 @@
       body {
         background: var(--app-bg-end) !important;
         color: var(--app-text);
-        zoom: 1;
         transition:
           background 0.3s ease,
           color 0.3s ease;
-      }
-
-      @media (min-width: 1024px) {
-        body {
-          zoom: 0.9;
-        }
       }
 
       /* Estilos adicionados para V3.1 */
@@ -46,7 +39,9 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        margin-bottom: 18px;
+        width: 100%;
+        padding: 8px 10px;
+        box-sizing: border-box;
       }
 
       .top-bar .profile-badge {

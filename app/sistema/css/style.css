@@ -1,9 +1,13 @@
+/* Column layout ensures the top navigation bar sits above the main content,
+   preventing overlap that occurred when body used the default row flex direction */
 body {
   font-family: sans-serif;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   height: 100vh;
+  overflow: hidden;
   margin: 0;
   background-color: #201b2c;
   transition: background-color 0.3s, color 0.3s;
@@ -15,6 +19,12 @@ body {
   flex-direction: column;
   font-family: sans-serif;
   font-size: 24px;
+  flex: 1;
+  width: 100%;
+  max-width: 720px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  justify-content: center;
 }
 
 #timer {
@@ -34,6 +44,7 @@ body {
   font-size: 50px;
   color: white;
   letter-spacing: 2px;
+  margin: 10px 0;
 }
 
 .clock_main {
@@ -221,15 +232,15 @@ body {
 }
 
 .top-buttons {
-  position: absolute;
-  top: 10px;
-  left: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  align-self: flex-start;
 }
 
 .right-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  display: none;
 }
 
 .testeTitle {

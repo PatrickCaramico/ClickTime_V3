@@ -1,83 +1,119 @@
-# Atualização ClickTime V3
+# ClickTime V3.1
 
-# ClickTime
+Aplicação web de foco e contagem regressiva com autenticação por perfil, personalização visual e controles de sessão.
 
-<p>ClickTime é um sistema de contagem regressiva que permite aos usuários agendar eventos e monitorar o tempo restante para esses eventos.</p>
+## Visão geral
 
-<strong>Update V.3</strong>
+O ClickTime V3.1 foi projetado para uso simples no dia a dia (usuário final) e controle de recursos por perfil (admin, usuário e convidado).
 
-## Readme Contents: 
- - [Summary](#summary)
-     - [About the project](#about)
-     - [Screenshot](#screenshot)
-     - [Preview](#preview)
- - [My Code](#codes)
-      - [HTML](#html)
-      - [CSS](#css)
-      - [Javascript](#javascript)
- - [Process](#process)
-      - [Designed](#designed)
-      - [Learned](#learned)
-- [Autor](#autor)
-      - [Link](#link)
+Principais objetivos:
 
-## Summary
+- produtividade com timer visual;
+- experiência moderna (tema, fullscreen, animações e frases motivacionais);
+- segurança básica de sessão com regras por contexto de uso.
 
-### About
-<p>A ideia do projeto ClickTime é criar um sistema de contagem regressiva que permite que os usuários se cadastrem, façam login e monitorem o tempo restante para eventos agendados. A versão 3 introduz a verificação do nome de usuário no cadastro, garantindo que não haja duplicatas. Além disso, um alerta é exibido ao carregar a página de login, informando ao usuário como proceder.</p>
+## Perfis e acesso
 
-### Screenshot
+Credenciais de demonstração:
 
-<img src="Images Readme/Tela_login.png" align="left" height="500px"/>
-<img src="Images Readme/Tela_cadastro.png" aligh="right" height="500px"/>
+- Admin: admin@clicktime.com (ou admin) / 123456
+- Usuário: usuario@clicktime.com (ou usuario) / 123456
+- Convidado: acesso pelo botão Entrar como Convidado
 
-### Preview
+Cadastro de novos usuários (sem backend):
 
-<img src="Images Readme/ClickTimeV3.gif"/>
+- Tela dedicada de criação com os campos: Nome e sobrenome, Usuário, Senha e Perfil.
+- Cadastro persistido em localStorage por 24h (limpeza automática após expiração).
+- Login de usuários novos por Usuário + Senha.
 
-## My Code
+Diferenças de perfil:
 
-### Codes
+- Admin: acesso a ferramentas administrativas completas e gestão de usuários locais.
+- Usuário: timer principal com limite de 2h por sessão (ajuste de sessão limitado a no máximo 1h).
+- Convidado: timer principal com limite de 45 min por sessão e sessão de login com contagem curta (2 min).
 
-### HTML
+## Funcionalidades principais
 
-<p>Código HTML</p>
-<img align="center" src="Images Readme/Tela_HTML.png" width="900px"/>
+- Login com perfil e modo convidado.
+- Recuperação de acesso com captcha simples para usuários locais (últimas 24h).
+- Gestão de usuários no painel ADM (personalização):
+  - listar usuários criados nas últimas 24h;
+  - filtrar por perfil (Todos/Admin/Usuário);
+  - buscar por nome, usuário ou e-mail técnico;
+  - editar senha;
+  - excluir usuário (com aviso quando usuário alvo está logado).
+- Timer com:
+  - data e hora alvo;
+  - exibição correta de horas totais (inclusive acima de 24h);
+  - barra de progresso (% restante);
+  - nome do evento (opcional) para contexto;
+  - alerta sonoro ao fim.
+- Histórico de focos por usuário (com duração e data/hora).
+- Frases motivacionais dinâmicas.
+- Personalização:
+  - paletas premium;
+  - cor personalizada;
+  - alternância claro/escuro.
+- Sessão visível no painel de personalização:
+  - contagem regressiva de sessão;
+  - ajuste manual de duração (com controle de permissão por perfil);
+  - alertas sonoros de proximidade do encerramento.
+- Fullscreen para modo foco.
+- Notificação do navegador ao finalizar o timer (quando permitido).
 
-### CSS
+## Lógica de sessão (atual)
 
-<p>Código CSS</p>
-<img align="center" src="Images Readme/Tela_CSS.png" width="900px"/>
+- Quando o timer está ativo:
+  - não é exibido aviso de “manter sessão”;
+  - a expiração automática é adiada para não interromper a contagem.
+- Quando não há timer ativo:
+  - há carência configurável de 3 ou 4 minutos;
+  - após essa carência, a sessão volta a contar normalmente.
+- A carência é configurável no painel de personalização.
+- Admin pode reduzir manualmente a sessão ativa no painel de personalização.
 
-### Javascript
+## Estrutura do projeto
 
-<p>Código Javascript</p>
-<img align="center" src="Images Readme/Tela_js.png" width="900px"/>
+```text
+ClickTimeV3/
+├─ index.html                 # entrada (redireciona)
+└─ app/
+   ├─ html/
+   │  ├─ login.html
+   │  ├─ START.html
+   │  ├─ VISUALIZADOR_ADMIN.html
+   │  └─ ...
+   ├─ sistema/
+   │  ├─ sistema.html
+   │  ├─ script.js
+   │  └─ css/style.css
+   ├─ assets/
+   │  ├─ Js/
+   │  │  ├─ auth-system.js
+   │  │  └─ application-ui.js
+   │  └─ css/
+   └─ docs/
+```
 
-## Process
+## Execução local
 
-### Designed
+Opção recomendada (VS Code + Live Server):
 
-- Semântica HTML;
-- Prioridades CSS;
-- Flexbox;
-- Funções JavaScript;
-- Contagem regressiva.
+1. Abrir a pasta do projeto no VS Code.
+2. Iniciar o Live Server pela raiz do workspace.
+3. Acessar a aplicação por index.html.
 
-### Learned
+Também funciona por servidor estático simples (ex.: Python ou Node) desde que o projeto seja servido por HTTP.
 
-🟢 Validação do formulário de cadastro; <br>
-🟢 Implementação de alertas e verificações de nome de usuário; <br>
-🟢 Contagem regressiva. <br>
+## Observações para entrega
 
-## Autor
+- Projeto front-end (HTML/CSS/JS), sem backend.
+- Dados de sessão/histórico/tema persistem no localStorage/sessionStorage.
+- Usuários criados são locais e temporários (24h), conforme escopo MVP de entrega.
+- Recomendado testar em Chrome/Edge atualizados.
 
-### Autor
+## Próximos incrementos sugeridos
 
-[![linkedin Badge](https://img.shields.io/badge/Patrick%20Caramico-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&Linkedin&logoColor=white&link=https://www.linkedin.com/in/patrickcaramico)](https://www.linkedin.com/in/patrickcaramico/)
-[![Twitter Badge](https://img.shields.io/badge/Caramico%20Patrick-0077B5?style=for-the-badge&logo=twitter&logoColor=white&link=https://twitter.com/CaramicoPatrick)](https://twitter.com/CaramicoPatrick)
-
-### Link
-
-**Link para acessar o projeto:**
-[https://sistema-alphav2.netlify.app/index.html](https://clicktimev3.netlify.app/cadastro.html)
+- exportar histórico em CSV;
+- presets de duração rápida (Pomodoro 25/5, 50/10);
+- backend opcional para histórico compartilhado por equipe.

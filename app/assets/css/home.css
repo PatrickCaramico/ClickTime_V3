@@ -1,0 +1,98 @@
+/* Area de Importar CSS */
+@import url('./styles/variables.css');
+
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    overflow-x: hidden; 
+}
+
+.left-login-image {
+    width: 400px;
+    max-width: 100%;
+}
+
+.right-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.container__home {
+    background-color: var(--cinza-claro);
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
+    max-width: 400px;
+    width: 100%;
+}
+
+.container__home > h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Area do FieldSet Index */
+fieldset {
+    border: 3px solid var(--Azul);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+legend {
+    border: 1px solid var(--Azul);
+    padding: 10px;
+    text-align: center;
+    background-color: var(--Azul);
+    border-radius: 8px;
+}
+
+/* Area Input's Index */
+.inputBox {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.inputUser {
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--Branco);
+    outline: none;
+    color: var(--Branco);
+    font-size: 15px;
+    width: 100%;
+    letter-spacing: 2px;
+}
+
+.labelInput {
+    position: absolute;
+    top: 0;
+    left: 0; 
+    pointer-events: none;
+    transition: .5s;
+}
+
+.inputUser:focus~.labelInput, .inputUser:valid~.labelInput {
+    top: -20px;
+    color: var(--Azul);
+    font-size: 15px;
+}
+
+/* Area Botões */
+.btn-login {
+    background-image: var(--Background-fundo-claro);
+    width: 100%;
+    border: none;
+    padding: 15px;
+    color: var(--Branco);
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: .5s;
+    margin-top: 20px;
+}

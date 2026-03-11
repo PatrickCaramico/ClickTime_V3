@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>� Como Funciona - ClickTime V3.1</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "Outfit",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .header {
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+        padding-top: 20px;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .header p {
+        font-size: 1.1rem;
+        opacity: 0.95;
+        margin-bottom: 5px;
+      }
+
+      .header .subtitle {
+        font-size: 0.95rem;
+        opacity: 0.85;
+      }
+
+      .back-button {
+        display: inline-block;
+        margin-bottom: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .back-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .section {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .section h2 {
+        color: #667eea;
+        margin-bottom: 20px;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 10px;
+        font-size: 1.6rem;
+      }
+
+      .section h3 {
+        color: #333;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+      }
+
+      .profile-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+      }
+
+      .profile-card {
+        border: 2px solid #eee;
+        border-radius: 12px;
+        padding: 20px;
+        transition: all 0.3s;
+      }
+
+      .profile-card:hover {
+        border-color: #667eea;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+      }
+
+      .profile-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      .profile-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+      }
+
+      .profile-type {
+        font-size: 0.85rem;
+        color: #999;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .profile-info {
+        font-size: 0.95rem;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 15px;
+      }
+
+      .credentials {
+        background: #f5f5f5;
+        padding: 12px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        font-size: 0.9rem;
+        margin: 10px 0;
+        border-left: 4px solid #667eea;
+      }
+
+      .credentials strong {
+        color: #667eea;
+        display: block;
+        margin-bottom: 3px;
+      }
+
+      .features-list {
+        list-style: none;
+        margin: 15px 0;
+      }
+
+      .features-list li {
+        padding: 8px 0;
+        border-bottom: 1px solid #f0f0f0;
+        color: #666;
+        padding-left: 25px;
+        position: relative;
+      }
+
+      .features-list li:last-child {
+        border-bottom: none;
+      }
+
+      .features-list li:before {
+        content: "✅";
+        position: absolute;
+        left: 0;
+        color: #2ecc71;
+      }
+
+      .step-group {
+        margin: 20px 0;
+      }
+
+      .step {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 10px;
+        border-left: 4px solid #667eea;
+      }
+
+      .step-number {
+        background: #667eea;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        flex-shrink: 0;
+      }
+
+      .step-content {
+        flex: 1;
+      }
+
+      .step-content h4 {
+        color: #333;
+        margin-bottom: 5px;
+      }
+
+      .step-content p {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 5px;
+      }
+
+      .demo-box {
+        background: #f0f3ff;
+        border: 2px dashed #667eea;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+        color: #333;
+      }
+
+      .demo-box strong {
+        color: #667eea;
+      }
+
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .comparison-table th {
+        background: #667eea;
+        color: white;
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+      }
+
+      .comparison-table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .comparison-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .comparison-table tr:nth-child(even) {
+        background: #f9f9f9;
+      }
+
+      .feature-yes {
+        color: #2ecc71;
+        font-weight: 600;
+      }
+
+      .feature-no {
+        color: #e74c3c;
+        font-weight: 600;
+      }
+
+      .code-example {
+        background: #1e1e2e;
+        color: #52ff00;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        font-size: 0.85rem;
+        overflow-x: auto;
+        margin: 15px 0;
+        border-left: 4px solid #52ff00;
+      }
+
+      .warning {
+        background: #fff3cd;
+        border: 2px solid #ffc107;
+        color: #856404;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+      }
+
+      .info-box {
+        background: #e7f3ff;
+        border: 2px solid #2e8ae6;
+        color: #12345c;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+      }
+
+      .info-box strong {
+        color: #2e8ae6;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 30px;
+      }
+
+      .btn {
+        padding: 12px 30px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 1rem;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        filter: brightness(1.1);
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #667eea;
+        border: 2px solid #667eea;
+      }
+
+      .btn-secondary:hover {
+        background: #667eea;
+        color: white;
+      }
+
+      .footer {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.8);
+        margin-top: 40px;
+        padding: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 1.8rem;
+        }
+
+        .section {
+          padding: 20px;
+        }
+
+        .profile-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .comparison-table {
+          font-size: 0.9rem;
+        }
+
+        .button-group {
+          flex-direction: column;
+        }
+
+        .btn {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="./login.html" class="back-button">← Voltar para Login</a>
+
+      <div class="header">
+        <h1>💡 Como Funciona o ClickTime V3.1</h1>
+        <p>Guia visual e interativo do sistema</p>
+        <p class="subtitle">Confira todos os detalhes antes de começar</p>
+      </div>
+
+      <!-- Seção: 3 Perfis -->
+      <div class="section">
+        <h2>👥 Os 3 Perfis do Sistema</h2>
+        <p>
+          O ClickTime V3.1 possui três tipos de acesso diferentes, cada um com
+          funcionalidades específicas:
+        </p>
+
+        <div class="profile-grid">
+          <div class="profile-card">
+            <div class="profile-icon">👨‍💼</div>
+            <div class="profile-name">Administrador</div>
+            <div class="profile-type">Acesso Total</div>
+            <div class="profile-info">
+              Perfil com acesso completo ao sistema e todos os recursos de
+              customização.
+            </div>
+            <div class="credentials">
+              <strong>👤 Usuário:</strong> admin (ou admin@clicktime.com)
+              <br />
+              <strong>🔑 Senha:</strong> 123456
+            </div>
+            <ul class="features-list">
+              <li>Painel de customização completo</li>
+              <li>Alteração de cores com picker</li>
+              <li>3 presets de temas</li>
+              <li>Fullscreen mode</li>
+              <li>Timer avançado</li>
+              <li>Frases motivacionais</li>
+            </ul>
+          </div>
+
+          <div class="profile-card">
+            <div class="profile-icon">👤</div>
+            <div class="profile-name">Usuário Comum</div>
+            <div class="profile-type">Funcionalidades Básicas</div>
+            <div class="profile-info">
+              Perfil padrão para usuários regulares com acesso às principais
+              funcionalidades.
+            </div>
+            <div class="credentials">
+              <strong>👤 Usuário:</strong> usuario (ou usuario@clicktime.com)
+              <br />
+              <strong>🔑 Senha:</strong> 123456
+            </div>
+            <ul class="features-list">
+              <li>Timer principal</li>
+              <li>Frases motivacionais</li>
+              <li>Fullscreen mode</li>
+              <li>Tema padrão aplicado</li>
+              <li>Logout seguro</li>
+            </ul>
+          </div>
+
+          <div class="profile-card">
+            <div class="profile-icon">🚀</div>
+            <div class="profile-name">Convidado (Guest)</div>
+            <div class="profile-type">Acesso Limitado</div>
+            <div class="profile-info">
+              Perfil de visitante com recursos restritos e interface
+              simplificada.
+            </div>
+            <div class="credentials">
+              <strong>🔘 Botão:</strong> "Entrar como Convidado"
+              <br />
+              <strong>Sem credenciais necessárias</strong>
+            </div>
+            <ul class="features-list">
+              <li>Timer com funcionalidades reduzidas</li>
+              <li>Frases motivacionais básicas</li>
+              <li>Interface simplificada</li>
+              <li>Acesso limitado a recursos</li>
+              <li>Logout para sair</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção: Como Funciona a Autenticação -->
+      <div class="section">
+        <h2>🔐 Sistema de Autenticação</h2>
+        <p>Entenda como o login funciona em 4 passos:</p>
+
+        <div class="step-group">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Você digita suas credenciais</h4>
+              <p>
+                Na página de login, digite usuário e senha. O sistema valida
+                credenciais de demonstração e usuários criados localmente.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Sistema define seu "role"</h4>
+              <p>
+                Se o perfil for administrador, o role será "admin". Nos demais
+                casos, será "user" (ou convidado em modo guest).
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Dados salvos no localStorage</h4>
+              <p>
+                Seus dados (usuário, role e preferências) são salvos para
+                persistência entre sessões.
+              </p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Classe CSS aplicada no Body</h4>
+              <p>
+                Se é admin, a classe <code>is-admin</code> é adicionada ao
+                <code>&lt;body&gt;</code>, mostrando o painel de customização.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>💡 A Mágica:</strong> Não é JavaScript checking de role
+          constantemente. É CSS! Quando você é admin, a classe CSS é aplicada e
+          painel aparece. Simples e eficiente.
+        </div>
+      </div>
+
+      <!-- Seção: Comparação de Funcionalidades -->
+      <div class="section">
+        <h2>📊 Comparação de Funcionalidades</h2>
+        <table class="comparison-table">
+          <tr>
+            <th>Funcionalidade</th>
+            <th>👨‍💼 Admin</th>
+            <th>👤 Usuário</th>
+            <th>🚀 Convidado</th>
+          </tr>
+          <tr>
+            <td><strong>Login Obrigatório</strong></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+            <td><span class="feature-no">❌ Não</span></td>
+          </tr>
+          <tr>
+            <td><strong>Painel de Customização</strong></td>
+            <td><span class="feature-yes">✅ Completo</span></td>
+            <td><span class="feature-no">❌ Não</span></td>
+            <td><span class="feature-no">❌ Não</span></td>
+          </tr>
+          <tr>
+            <td><strong>Color Picker</strong></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+            <td><span class="feature-no">❌ Não</span></td>
+            <td><span class="feature-no">❌ Não</span></td>
+          </tr>
+          <tr>
+            <td><strong>Presets de Temas (3)</strong></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+            <td><span class="feature-no">❌ Não</span></td>
+            <td><span class="feature-no">❌ Não</span></td>
+          </tr>
+          <tr>
+            <td><strong>Fullscreen Mode</strong></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+          </tr>
+          <tr>
+            <td><strong>Timer Principal</strong></td>
+            <td><span class="feature-yes">✅ Avançado</span></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+            <td><span class="feature-yes">✅ Básico</span></td>
+          </tr>
+          <tr>
+            <td><strong>Frases Motivacionais</strong></td>
+            <td><span class="feature-yes">✅ 10+ Frases</span></td>
+            <td><span class="feature-yes">✅ 10+ Frases</span></td>
+            <td><span class="feature-yes">✅ Básicas</span></td>
+          </tr>
+          <tr>
+            <td><strong>Persistência localStorage</strong></td>
+            <td><span class="feature-yes">✅ Completa</span></td>
+            <td><span class="feature-yes">✅ Completa</span></td>
+            <td><span class="feature-no">❌ Limitada</span></td>
+          </tr>
+          <tr>
+            <td><strong>Logout Seguro</strong></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Seção: Recursos Especiais -->
+      <div class="section">
+        <h2>⭐ Recursos Especiais</h2>
+
+        <h3>1. Esqueci a Senha com Captcha</h3>
+        <p>
+          Se você esquecer sua senha, pode recuperá-la respondendo um desafio
+          matemático simples:
+        </p>
+        <div class="demo-box">
+          <strong>Como funciona:</strong> Sistema gera uma soma simples (ex:
+          5+3), você responde e redefine a senha de usuários locais criados nas
+          últimas 24h.
+        </div>
+
+        <h3>2. Cadastro local de usuários (24h)</h3>
+        <p>
+          No botão "Criar usuário", o cadastro é feito sem banco de dados, com
+          validade de 24 horas.
+        </p>
+        <div class="demo-box">
+          <strong>Campos:</strong> Nome e sobrenome, Usuário, Senha e Perfil
+          (Admin ou Usuário).
+        </div>
+
+        <h3>3. Modo Convidado Sem Credenciais</h3>
+        <p>
+          Clique em "Entrar como Convidado" para testar o sistema sem fazer
+          login:
+        </p>
+        <div class="demo-box">
+          <strong>Benefício:</strong> Permite que visitantes terem uma prévia do
+          sistema sem barreiras de autenticação.
+        </div>
+
+        <h3>4. Customização e gestão ADM</h3>
+        <p>
+          Administradores têm 3 presets, cor personalizada e gestão de usuários
+          criados localmente:
+        </p>
+        <ul class="features-list">
+          <li><strong>Professional:</strong> Azul profissional (#2e8ae6)</li>
+          <li><strong>Energia:</strong> Laranja energético (#ff8c42)</li>
+          <li><strong>Relax:</strong> Verde relaxante (#2ecc71)</li>
+          <li>
+            <strong>Customizado:</strong> Escolha qualquer cor com color picker
+          </li>
+          <li>
+            <strong>Usuários:</strong> filtrar, buscar, editar senha e excluir
+          </li>
+        </ul>
+
+        <h3>5. Fullscreen Mode</h3>
+        <p>
+          Botão para entrar em modo tela cheia, perfeito para minimizar
+          distrações:
+        </p>
+        <div class="demo-box">
+          <strong>Vantagem:</strong> Elimina distrações de barra de navegação do
+          navegador, aumentando foco.
+        </div>
+
+        <h3>6. Frases Motivacionais</h3>
+        <p>
+          Sistema exibe frases motivacionais aleatórias para inspirar o usuário:
+        </p>
+        <div class="code-example">
+          "Foco é a chave para o sucesso" "Você é mais forte do que pensa" "Cada
+          minuto conta, aproveite ao máximo" ... + 7 frases mais
+        </div>
+      </div>
+
+      <!-- Seção: Arquitetura Técnica -->
+      <div class="section">
+        <h2>🔧 Arquitetura Técnica</h2>
+
+        <h3>Arquivos Principais</h3>
+        <ul class="features-list">
+          <li><strong>login.html</strong> - Página de autenticação</li>
+          <li><strong>auth-system.js</strong> - Core de autenticação</li>
+          <li><strong>application-ui.js</strong> - Gerenciamento de UI</li>
+          <li><strong>theme-advanced.css</strong> - Estilos e temas</li>
+          <li><strong>sistema.html</strong> - Interface principal</li>
+        </ul>
+
+        <h3>Como as Classes CSS Controlam Tudo</h3>
+        <div class="code-example">
+          /* Admin pode ver o painel */ body.is-admin .admin-panel { display:
+          block !important; animation: slideInRight 0.3s; } /* Convidado tem
+          recursos restritos */ body.is-guest .restricted-feature { opacity:
+          0.4; pointer-events: none; } /* Fullscreen ajusta o layout */
+          body.in-fullscreen .navbar { display: none; } body.in-fullscreen
+          .timer { font-size: 4rem; }
+        </div>
+
+        <h3>localStorage - Persistência</h3>
+        <p>Dados salvos no navegador para reutilização:</p>
+        <div class="demo-box">
+          <strong>clicktime_user:</strong> JSON com email, role, displayName,
+          isGuest, themeColor
+          <br />
+          <strong>clicktime_theme:</strong> Cor hex salva (#2e8ae6, etc)
+        </div>
+      </div>
+
+      <!-- Seção: Top Tips -->
+      <div class="section">
+        <h2>💡 Dicas Importantes</h2>
+
+        <div class="info-box">
+          <strong>✅ Teste cada perfil:</strong> Faça login como admin, depois
+          como usuário comum, depois como convidado. Veja as diferenças!
+        </div>
+
+        <div class="info-box">
+          <strong>✅ Customize cores:</strong> Se for admin, abra o color picker
+          e mude as cores em tempo real.
+        </div>
+
+        <div class="info-box">
+          <strong>✅ Teste regoverança:</strong> Clique "Esqueci a senha" e
+          resolva o captcha matemático.
+        </div>
+
+        <div class="info-box">
+          <strong>✅ Fullscreen boost:</strong> Aperte o botão fullscreen para
+          experiência de foco máximo.
+        </div>
+
+        <div class="warning">
+          <strong>⚠️ Importante:</strong> Este é um sistema de demonstração com
+          autenticação frontend simulada. Para produção real, implemente
+          autenticação backend com tokens JWT, criptografia de senhas, e
+          segurança apropriada.
+        </div>
+      </div>
+
+      <!-- Botões de Ação -->
+      <div class="button-group">
+        <a href="./login.html" class="btn btn-primary">
+          🚀 Voltar e Começar Agora
+        </a>
+        <a href="./VISUALIZADOR_ADMIN.html" class="btn btn-secondary">
+          📊 Ver Visualizador de Admin
+        </a>
+      </div>
+
+      <div class="footer">
+        <p>ClickTime V3.1 • Desenvolvido por Patrick Souza</p>
+        <p style="font-size: 0.9rem; margin-top: 10px">
+          Sistema completo de gestão de tempo e foco
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

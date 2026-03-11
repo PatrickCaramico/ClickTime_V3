@@ -1,0 +1,48 @@
+/* Arquivo de Variables e Cores */
+
+/* Fonte Principal */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap');
+
+/* Variavel Colores */
+:root {
+    --Font-Principal: 'Montserrat', sans-serif;
+    --Cor-primaria: #FFFFFF;
+    --Cor-fundo: black;
+    --Background-fundo: linear-gradient(to right, rgb(20,  147, 220), rgb(17, 54, 71));
+    --Background-fundo-claro: linear-gradient(to right, rgb(0, 92,197), rgb(90, 20, 220));
+    --Cinza: #282c34;
+    --Preto: rgba(0, 0, 0, 0.8);
+    --cinza-claro: rgba(0, 0, 0, 0.5);
+    --Azul: dodgerblue;
+    --Branco: white;
+}
+
+/* Body,  HTML */
+body, html {
+    font-family: var(--Font-Principal);
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--Background-fundo);
+    overflow-x: hidden; 
+}
+
+/* Media Query */
+@media (max-width: 800px) {
+    .login-wrapper {
+        flex-direction: column;
+    }
+
+    .left-login-image {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .container__home {
+        width: 100%;
+    }
+}

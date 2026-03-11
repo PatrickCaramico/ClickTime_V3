@@ -46,9 +46,19 @@
         overflow: hidden;
       }
 
-      .login-page {
-        zoom: 0.9;
-      }
+      .login-page .page-shell {
+        transform: scale(0.9);
+        transform-origin: top center;
+        width: 111.111%;
+}
+
+/* Mantém responsivo em telas menores */
+@media (max-width: 680px) {
+  .login-page .page-shell {
+    transform: none;
+    width: 100%;
+  }
+}
 
       @supports not (zoom: 1) {
         .login-page .page-shell {
@@ -1028,3 +1038,4 @@
     </script>
   </body>
 </html>
+

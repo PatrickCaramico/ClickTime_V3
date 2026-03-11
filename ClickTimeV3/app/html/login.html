@@ -1,0 +1,1030 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClickTime V3.1 - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
+    />
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- CSS -->
+    <style>
+      :root {
+        --bg: #eef3f9;
+        --panel-soft: #dbe7f5;
+        --text: #17253a;
+        --muted: #5f7188;
+        --primary: #2e8ae6;
+        --primary-custom: #2e8ae6;
+        --line: #cad5e3;
+        --radius: 14px;
+        --shadow: 0 20px 45px rgba(18, 35, 65, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "Outfit", sans-serif;
+        background: radial-gradient(
+          circle at 12% 12%,
+          #f8fbff 0%,
+          var(--bg) 45%,
+          #e7eef9 100%
+        );
+        color: var(--text);
+        transition: background 0.3s ease;
+        overflow: hidden;
+      }
+
+      .login-page {
+        zoom: 0.9;
+      }
+
+      @supports not (zoom: 1) {
+        .login-page .page-shell {
+          transform: scale(0.9);
+          transform-origin: top center;
+          width: 111.111%;
+        }
+      }
+
+      .page-shell {
+        min-height: 100dvh;
+        padding: 20px 18px 12px;
+      }
+
+      /* ── Layout do cartão de autenticação ── */
+      .auth-wrap {
+        width: min(1050px, 96vw);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-radius: 20px;
+        overflow: hidden;
+        background: linear-gradient(
+          140deg,
+          var(--primary-custom) 0%,
+          var(--primary-custom) 60%,
+          #276db3 100%
+        );
+        box-shadow: var(--shadow);
+        transition: background 0.3s ease;
+      }
+
+      /* Lado esquerdo – visual/hero */
+      .auth-left {
+        padding: 48px 36px;
+        background: linear-gradient(
+          180deg,
+          rgba(7, 15, 57, 0.95) 0%,
+          rgba(7, 15, 57, 0.85) 100%
+        );
+        color: #edf5ff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .auth-visual-side {
+        align-items: flex-start;
+      }
+
+      .auth-left h1 {
+        margin: 0;
+        font-family: "Sora", sans-serif;
+        font-size: clamp(1.6rem, 1.8vw, 2.1rem);
+        line-height: 1.3;
+      }
+
+      .auth-left p {
+        margin: 14px 0 0;
+        color: #d7e4f5;
+        max-width: 44ch;
+      }
+
+      .auth-hero {
+        margin-top: 22px;
+        width: min(460px, 100%);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        padding: 10px;
+        display: none;
+      }
+
+      .auth-hero.show {
+        display: block;
+      }
+
+      /* Lado direito – formulário */
+      .auth-right {
+        padding: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .auth-login-side {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .login-card {
+        width: min(420px, 100%);
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(6px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: var(--radius);
+        padding: 26px;
+        animation: slideIn 0.4s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Chip de marca */
+      .brand-chip {
+        width: fit-content;
+        padding: 7px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+      }
+
+      .brand-chip-login {
+        display: inline-flex;
+        margin-top: 0;
+        margin-bottom: 28px;
+        color: #1a4873;
+        background: #c9e7ff;
+      }
+
+      .brand-chip-admin {
+        background: #ffd9cc;
+        color: #8b4513;
+      }
+
+      .login-card h2 {
+        margin: 0 0 8px;
+        font-family: "Sora", sans-serif;
+      }
+
+      .subtle {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      /* Campos do formulário */
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+
+      label {
+        font-size: 0.9rem;
+        color: #26384f;
+        font-weight: 500;
+      }
+
+      input,
+      button {
+        font: inherit;
+      }
+
+      input {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 11px 12px;
+        background: #fff;
+        color: var(--text);
+        transition:
+          border-color 0.2s,
+          outline 0.2s;
+      }
+
+      input:focus {
+        outline: 2px solid rgba(46, 138, 230, 0.25);
+        border-color: var(--primary-custom);
+      }
+
+      /* Botões */
+      .btn {
+        border: 0;
+        border-radius: 10px;
+        padding: 11px 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn-primary {
+        color: #fff;
+        background: linear-gradient(
+          90deg,
+          var(--primary-custom) 0%,
+          var(--primary-custom) 100%
+        );
+        width: 100%;
+      }
+
+      .btn-primary:hover {
+        filter: brightness(1.08);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(46, 138, 230, 0.3);
+      }
+
+      .btn-secondary {
+        background: var(--panel-soft);
+        color: #17365f;
+        width: 100%;
+        margin-top: 8px;
+      }
+
+      .btn-secondary:hover {
+        background: #c8dff0;
+      }
+
+      .btn-outline {
+        background: #fff;
+        color: #1a4f84;
+        border: 1px solid #a9c4e4;
+        width: 100%;
+        margin-top: 8px;
+      }
+
+      .btn-outline:hover {
+        background: #eef5fd;
+        border-color: #89b3dd;
+      }
+
+      .btn-sm {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        margin: 0;
+      }
+
+      .btn-link {
+        background: none;
+        color: var(--primary-custom);
+        text-decoration: underline;
+        padding: 0;
+        cursor: pointer;
+      }
+
+      .btn-link:hover {
+        opacity: 0.8;
+      }
+
+      /* Alertas */
+      .alert {
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-bottom: 14px;
+        font-size: 0.95rem;
+        animation: slideDown 0.3s ease-out;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .alert-error {
+        background: #ffe5e9;
+        color: #90283b;
+        border: 1px solid #ffb3bf;
+      }
+
+      .alert-success {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #c8e6c9;
+      }
+
+      /* Caixa de credenciais de demonstração */
+      .demo-box {
+        margin-top: 14px;
+        background: #f3f8ff;
+        border: 1px dashed #9ebce0;
+        border-radius: 10px;
+        padding: 12px;
+        font-size: 0.88rem;
+        color: #32537d;
+      }
+
+      .demo-box strong {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .credentials-item {
+        margin: 6px 0;
+        padding: 4px 0;
+      }
+
+      /* Links e extras */
+      .links-extra {
+        margin-top: 16px;
+        text-align: center;
+        font-size: 0.9rem;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .links-extra a,
+      .links-extra button {
+        color: var(--primary-custom);
+        text-decoration: none;
+        cursor: pointer;
+        transition: opacity 0.2s;
+      }
+
+      .links-extra a:hover,
+      .links-extra button:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+      }
+
+      .divider {
+        text-align: center;
+        margin: 12px 0;
+        color: #999;
+        font-size: 0.85rem;
+      }
+
+      /* Modal de "Esqueci a Senha" */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .modal.show {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        padding: 30px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 420px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        animation: slideInModal 0.3s ease-out;
+      }
+
+      @keyframes slideInModal {
+        from {
+          transform: scale(0.9);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .modal-header {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--text);
+      }
+
+      .modal-description {
+        color: var(--muted);
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+      }
+
+      .close-modal {
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #aaa;
+        transition: color 0.2s;
+      }
+
+      .close-modal:hover {
+        color: #000;
+      }
+
+      .captcha-container {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+        text-align: center;
+      }
+
+      .captcha-challenge {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--primary-custom);
+        margin-bottom: 10px;
+      }
+
+      .captcha-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        font-size: 1rem;
+        text-align: center;
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .modal-buttons button {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s;
+      }
+
+      .btn-confirm {
+        background: var(--primary-custom);
+        color: white;
+      }
+
+      .btn-confirm:hover {
+        filter: brightness(1.1);
+      }
+
+      .btn-cancel {
+        background: #eee;
+        color: #333;
+      }
+
+      .btn-cancel:hover {
+        background: #ddd;
+      }
+
+      /* Rodapé */
+      .login-footer {
+        width: min(1050px, 96vw);
+        margin: 8px auto 0;
+        text-align: center;
+        color: #37557a;
+        font-size: 0.86rem;
+      }
+
+      /* ── Responsivo ── */
+      @media (max-width: 680px) {
+        .auth-wrap {
+          grid-template-columns: 1fr;
+        }
+
+        .auth-left {
+          display: none;
+        }
+      }
+
+      /* Loading state */
+      .loading {
+        opacity: 0.6;
+        pointer-events: none;
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 0.6s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body class="login-page">
+    <main class="page-shell">
+      <section class="auth-wrap">
+        <!-- Formulário de login -->
+        <div class="auth-right auth-login-side">
+          <form class="login-card" id="loginForm" novalidate>
+            <span class="brand-chip brand-chip-login" id="brandChip"
+              >ClickTime V3.1</span
+            >
+            <h2>Entrar na conta</h2>
+            <p class="subtle">Acesso rápido ao sua sessão.</p>
+
+            <div
+              class="alert alert-error"
+              id="errorAlert"
+              style="display: none"
+            ></div>
+            <div
+              class="alert alert-success"
+              id="successAlert"
+              style="display: none"
+            ></div>
+
+            <div class="field">
+              <label for="email">Usuário</label>
+              <input
+                type="text"
+                id="email"
+                name="username"
+                placeholder="Digite seu usuário"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="password">Senha</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Digite sua senha"
+                required
+              />
+            </div>
+
+            <button class="btn btn-primary" type="submit">Entrar</button>
+            <button
+              class="btn btn-secondary"
+              type="button"
+              onclick="window.location.href = './criar_usuario.html'"
+            >
+              🆕 Criar usuário
+            </button>
+            <button
+              class="btn btn-outline"
+              type="button"
+              id="forgotPasswordBtn"
+            >
+              Esqueci minha senha
+            </button>
+
+            <div class="links-extra">
+              <div class="divider">ou</div>
+              <button type="button" id="guestModeBtn" class="btn-link">
+                🚀 Entrar como Convidado
+              </button>
+              <a
+                href="./START.html"
+                class="btn-link"
+                style="display: inline-block; margin-top: 4px"
+              >
+                💡 Como funciona?
+              </a>
+            </div>
+
+            <div class="demo-box" id="demoCredentials">
+              <strong>Credenciais Demo:</strong>
+              <div class="credentials-item">
+                <strong>Admin:</strong> admin@clicktime.com | 123456
+              </div>
+              <div class="credentials-item">
+                <strong>Usuário:</strong> usuario@clicktime.com | 123456
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Painel visual lateral -->
+        <aside class="auth-left auth-visual-side">
+          <h1>Controle de tempo, produtividade e foco em um único painel.</h1>
+          <p>
+            Entre com sua conta para gerenciar suas sessões de foco com
+            segurança e acompanhar sua produtividade em tempo real.
+          </p>
+          <img
+            class="auth-hero show"
+            src="../assets/images/WorkTimeV3svg.svg"
+            alt="Ilustração de gestão de tempo"
+          />
+        </aside>
+      </section>
+
+      <footer class="login-footer">
+        Feito por Patrick Souza &copy; 2026 | ClickTime V3.1
+      </footer>
+    </main>
+
+    <!-- Modal Esqueci a Senha -->
+    <div class="modal" id="forgotPasswordModal">
+      <div class="modal-content">
+        <span class="close-modal" onclick="closeForgotModal()">&times;</span>
+        <div class="modal-header">Recuperar Acesso</div>
+        <p class="modal-description">
+          Confirme sua identidade resolvendo o desafio abaixo.
+        </p>
+
+        <div class="field">
+          <label for="forgotEmail">Usuário ou e-mail cadastrado:</label>
+          <input type="text" id="forgotEmail" placeholder="seuusuario" />
+        </div>
+
+        <div class="captcha-container">
+          <div class="captcha-challenge" id="captchaChallenge"></div>
+          <input
+            type="text"
+            id="captchaAnswer"
+            class="captcha-input"
+            placeholder="Digite o resultado"
+            inputmode="numeric"
+          />
+        </div>
+
+        <div class="modal-buttons">
+          <button type="button" class="btn-cancel" onclick="closeForgotModal()">
+            Cancelar
+          </button>
+          <button
+            type="button"
+            class="btn-confirm"
+            onclick="processForgotPassword()"
+          >
+            Enviar Código
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../assets/Js/auth-system.js"></script>
+    <script>
+      // ============= GERENCIADORES DE UI DO LOGIN =============
+
+      const form = document.getElementById("loginForm");
+      const errorAlert = document.getElementById("errorAlert");
+      const successAlert = document.getElementById("successAlert");
+      const forgotBtn = document.getElementById("forgotPasswordBtn");
+      const guestBtn = document.getElementById("guestModeBtn");
+      const forgotModal = document.getElementById("forgotPasswordModal");
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
+      const brandChip = document.getElementById("brandChip");
+
+      /**
+       * Mostra mensagem de erro
+       */
+      function showError(msg) {
+        errorAlert.textContent = msg;
+        errorAlert.style.display = "block";
+        successAlert.style.display = "none";
+      }
+
+      /**
+       * Mostra mensagem de sucesso
+       */
+      function showSuccess(msg) {
+        successAlert.textContent = msg;
+        successAlert.style.display = "block";
+        errorAlert.style.display = "none";
+      }
+
+      /**
+       * Esconde mensagens
+       */
+      function hideAlerts() {
+        errorAlert.style.display = "none";
+        successAlert.style.display = "none";
+      }
+
+      /**
+       * Atualiza visual baseado no perfil do usuário
+       */
+      function updateUIForProfile(user) {
+        document.body.classList.remove("is-admin");
+        brandChip.textContent = "ClickTime V3.1";
+        brandChip.classList.remove("brand-chip-admin");
+      }
+
+      /**
+       * Atualiza cor do tema
+       */
+      function updateThemeColors() {
+        const primaryColor = themeManager.getPrimaryColor();
+        document.documentElement.style.setProperty(
+          "--primary-custom",
+          primaryColor,
+        );
+      }
+
+      /**
+       * Abre modal de esqueci a senha
+       */
+      function openForgotModal() {
+        forgotModal.classList.add("show");
+        document.getElementById("forgotEmail").value = emailInput.value;
+        updateCaptchaDisplay();
+      }
+
+      /**
+       * Fecha modal de esqueci a senha
+       */
+      function closeForgotModal() {
+        forgotModal.classList.remove("show");
+        document.getElementById("captchaAnswer").value = "";
+      }
+
+      /**
+       * Atualiza exibição do desafio do captcha
+       */
+      function updateCaptchaDisplay() {
+        document.getElementById("captchaChallenge").textContent =
+          captchaManager.getChallenge();
+      }
+
+      /**
+       * Processa "esqueci a senha"
+       */
+      function processForgotPassword() {
+        const loginId = document.getElementById("forgotEmail").value.trim();
+        const answer = document.getElementById("captchaAnswer").value.trim();
+
+        if (!loginId) {
+          Swal.fire({
+            title: "Campo obrigatório",
+            text: "Digite seu usuário ou e-mail",
+            icon: "error",
+          });
+          return;
+        }
+
+        if (!answer) {
+          Swal.fire({
+            title: "Resolva o desafio",
+            text: "Digite o resultado da soma",
+            icon: "error",
+          });
+          return;
+        }
+
+        if (!captchaManager.verify(answer)) {
+          captchaManager.reset();
+          updateCaptchaDisplay();
+          document.getElementById("captchaAnswer").value = "";
+          Swal.fire({
+            title: "Resposta Incorreta! ❌",
+            text: "Tente resolver o novo desafio abaixo.",
+            icon: "error",
+          });
+          return;
+        }
+
+        const userRecord = authManager.findUserByIdentifier(loginId);
+        if (!userRecord || userRecord.source !== "local") {
+          Swal.fire({
+            title: "Conta não elegível",
+            text: "Recuperação disponível apenas para usuários criados no sistema nas últimas 24h.",
+            icon: "warning",
+          });
+          return;
+        }
+
+        Swal.fire({
+          title: "Definir nova senha",
+          input: "password",
+          inputLabel: `Nova senha para ${userRecord.username}`,
+          inputPlaceholder: "Mínimo 4 caracteres",
+          inputAttributes: {
+            minlength: "4",
+            autocapitalize: "off",
+            autocorrect: "off",
+          },
+          showCancelButton: true,
+          confirmButtonText: "Salvar nova senha",
+          cancelButtonText: "Cancelar",
+          preConfirm: (value) => {
+            const nextPassword = String(value || "").trim();
+            if (nextPassword.length < 4) {
+              Swal.showValidationMessage(
+                "A senha deve ter pelo menos 4 caracteres.",
+              );
+              return false;
+            }
+            return nextPassword;
+          },
+        }).then((result) => {
+          if (!result.isConfirmed) return;
+
+          const resetResult = authManager.resetPasswordByEmail(
+            userRecord.email,
+            result.value,
+          );
+
+          if (!resetResult.success) {
+            Swal.fire({
+              title: "Não foi possível redefinir",
+              text: resetResult.message,
+              icon: "error",
+            });
+            return;
+          }
+
+          Swal.fire({
+            title: "Senha atualizada ✅",
+            text: "Use a nova senha para entrar.",
+            icon: "success",
+            timer: 1800,
+            showConfirmButton: false,
+          });
+
+          closeForgotModal();
+        });
+      }
+
+      /**
+       * Realiza login
+       */
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        hideAlerts();
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+
+        if (!email || !password) {
+          showError("Preencha usuário e senha.");
+          return;
+        }
+
+        // Simula delay de conexão
+        form.classList.add("loading");
+        forgotBtn.disabled = true;
+        guestBtn.disabled = true;
+
+        setTimeout(() => {
+          const result = authManager.login(email, password);
+          form.classList.remove("loading");
+          forgotBtn.disabled = false;
+          guestBtn.disabled = false;
+
+          if (result.success) {
+            updateUIForProfile(result.user);
+            updateThemeColors();
+            showSuccess("Login realizado com sucesso! ✅");
+
+            Swal.fire({
+              title: `Bem-vindo, ${result.user.getDisplayName()}! 👋`,
+              text: `Você está logado como ${result.user.role === "admin" ? "Administrador" : "Usuário"}`,
+              icon: "success",
+              timer: 2000,
+              showConfirmButton: false,
+            }).then(() => {
+              redirectAfterLogin(result.user);
+            });
+          } else {
+            showError(result.message);
+          }
+        }, 1000);
+      });
+
+      /**
+       * Redireciona após login
+       */
+      function redirectAfterLogin(user) {
+        // Redireciona para a página principal
+        setTimeout(() => {
+          window.location.href = "../sistema/sistema.html";
+        }, 500);
+      }
+
+      /**
+       * Entra como convidado
+       */
+      guestBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        Swal.fire({
+          title: "Modo Convidado 🚀",
+          text: "Você entrará como visitante com funcionalidades limitadas.",
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonText: "Continuar como Convidado",
+          cancelButtonText: "Cancelar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const guestResult = authManager.loginAsGuest();
+            updateUIForProfile(guestResult.user);
+
+            Swal.fire({
+              title: "Bem-vindo, Visitante! 👋",
+              text: "Você está navegando em modo convidado",
+              icon: "success",
+              timer: 2000,
+              showConfirmButton: false,
+            }).then(() => {
+              redirectAfterLogin(guestResult.user);
+            });
+          }
+        });
+      });
+
+      /**
+       * Botão esqueci a senha
+       */
+      forgotBtn.addEventListener("click", function () {
+        openForgotModal();
+      });
+
+      /**
+       * Fecha modal ao clicar fora
+       */
+      window.addEventListener("click", function (event) {
+        if (event.target === forgotModal) {
+          closeForgotModal();
+        }
+      });
+
+      /**
+       * Enter na input de captcha
+       */
+      document
+        .getElementById("captchaAnswer")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            processForgotPassword();
+          }
+        });
+
+      /**
+       * Inicialização
+       */
+      window.addEventListener("load", function () {
+        // Sempre exige novo login ao abrir a tela
+        if (authManager.isAuthenticated()) {
+          localStorage.removeItem("clicktime_user");
+          localStorage.removeItem("clicktime_session_expires_at");
+          authManager.currentUser = null;
+        }
+
+        sessionStorage.removeItem("clicktime_guest_mode");
+
+        emailInput.focus();
+      });
+
+      // Frase motivacional de boas-vindas
+      console.log(
+        `%c🎯 ${MotivationalManager.getRandomPhrase()}`,
+        "font-size: 14px; color: #2e8ae6; font-weight: bold;",
+      );
+    </script>
+  </body>
+</html>

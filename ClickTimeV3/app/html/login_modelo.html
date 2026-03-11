@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
+    />
+    <style>
+      :root {
+        --bg: #eef3f9;
+        --panel-soft: #dbe7f5;
+        --text: #17253a;
+        --muted: #5f7188;
+        --primary: #2e8ae6;
+        --line: #cad5e3;
+        --radius: 14px;
+        --shadow: 0 20px 45px rgba(18, 35, 65, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Outfit", sans-serif;
+        background: radial-gradient(
+          circle at 12% 12%,
+          #f8fbff 0%,
+          var(--bg) 45%,
+          #e7eef9 100%
+        );
+        color: var(--text);
+      }
+
+      .login-page {
+        zoom: 0.9;
+      }
+
+      @supports not (zoom: 1) {
+        .login-page .page-shell {
+          transform: scale(0.9);
+          transform-origin: top center;
+          width: 111.111%;
+        }
+      }
+
+      .page-shell {
+        min-height: 100vh;
+        padding: 32px 18px;
+      }
+
+      /* ── Layout do cartão de autenticação ── */
+      .auth-wrap {
+        width: min(1050px, 96vw);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-radius: 20px;
+        overflow: hidden;
+        background: linear-gradient(
+          140deg,
+          #2f8ee9 0%,
+          #2b7ed3 60%,
+          #276db3 100%
+        );
+        box-shadow: var(--shadow);
+      }
+
+      /* Lado esquerdo – visual/hero */
+      .auth-left {
+        padding: 48px 36px;
+        background: linear-gradient(
+          180deg,
+          rgba(7, 15, 57, 0.95) 0%,
+          rgba(7, 15, 57, 0.85) 100%
+        );
+        color: #edf5ff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .auth-visual-side {
+        align-items: flex-start;
+      }
+
+      .auth-left h1 {
+        margin: 0;
+        font-family: "Sora", sans-serif;
+        font-size: clamp(1.6rem, 1.8vw, 2.1rem);
+        line-height: 1.3;
+      }
+
+      .auth-left p {
+        margin: 14px 0 0;
+        color: #d7e4f5;
+        max-width: 44ch;
+      }
+
+      .auth-hero {
+        margin-top: 22px;
+        width: min(460px, 100%);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        padding: 10px;
+      }
+
+      /* Lado direito – formulário */
+      .auth-right {
+        padding: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .auth-login-side {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .login-card {
+        width: min(420px, 100%);
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(6px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: var(--radius);
+        padding: 26px;
+      }
+
+      /* Chip de marca */
+      .brand-chip {
+        width: fit-content;
+        padding: 7px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+      }
+
+      .brand-chip-login {
+        display: inline-flex;
+        margin-top: 0;
+        margin-bottom: 28px;
+        color: #1a4873;
+        background: #c9e7ff;
+      }
+
+      .login-card h2 {
+        margin: 0 0 8px;
+        font-family: "Sora", sans-serif;
+      }
+
+      .subtle {
+        margin: 0 0 20px;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      /* Campos do formulário */
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+
+      label {
+        font-size: 0.9rem;
+        color: #26384f;
+        font-weight: 500;
+      }
+
+      input,
+      button {
+        font: inherit;
+      }
+
+      input {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 11px 12px;
+        background: #fff;
+        color: var(--text);
+      }
+
+      input:focus {
+        outline: 2px solid rgba(46, 138, 230, 0.25);
+        border-color: var(--primary);
+      }
+
+      /* Botões */
+      .btn {
+        border: 0;
+        border-radius: 10px;
+        padding: 11px 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        color: #fff;
+        background: linear-gradient(90deg, #2e8ae6 0%, #296ecf 100%);
+      }
+
+      .btn-primary:hover {
+        filter: brightness(1.03);
+      }
+
+      .btn-soft {
+        background: var(--panel-soft);
+        color: #17365f;
+      }
+
+      /* Alertas */
+      .alert {
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-bottom: 14px;
+        font-size: 0.95rem;
+      }
+
+      .alert-error {
+        background: #ffe5e9;
+        color: #90283b;
+      }
+
+      /* Caixa de credenciais de demonstração */
+      .demo-box {
+        margin-top: 14px;
+        background: #f3f8ff;
+        border: 1px dashed #9ebce0;
+        border-radius: 10px;
+        padding: 12px;
+        font-size: 0.88rem;
+        color: #32537d;
+      }
+
+      /* Rodapé */
+      .login-footer {
+        width: min(1050px, 96vw);
+        margin: 12px auto 0;
+        text-align: center;
+        color: #37557a;
+        font-size: 0.86rem;
+      }
+
+      /* ── Responsivo ── */
+      @media (max-width: 680px) {
+        .auth-wrap {
+          grid-template-columns: 1fr;
+        }
+
+        .auth-left {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="login-page">
+    <main class="page-shell">
+      <section class="auth-wrap">
+        <!-- Formulário de login -->
+        <div class="auth-right auth-login-side">
+          <form class="login-card" id="loginForm" novalidate>
+            <span class="brand-chip brand-chip-login"
+              >Gestor de Inventario</span
+            >
+            <h2>Entrar na conta</h2>
+            <p class="subtle">Acesso rapido para operacao diaria do estoque.</p>
+
+            <div
+              class="alert alert-error"
+              id="errorAlert"
+              style="display: none"
+            ></div>
+
+            <div class="field">
+              <label for="email">E-mail</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="admin@clicktime.com"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="password">Senha</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Digite sua senha"
+                required
+              />
+            </div>
+
+            <button class="btn btn-primary" type="submit" style="width: 100%">
+              Entrar
+            </button>
+            <button
+              class="btn btn-soft"
+              type="button"
+              id="forgotPasswordBtn"
+              style="width: 100%; margin-top: 8px"
+            >
+              Esqueci minha senha
+            </button>
+
+            <div class="demo-box" id="demoCredentials">
+              Admin: admin@clicktime.com | 123456<br />
+              Usuario: usuario@clicktime.com | 123456
+            </div>
+          </form>
+        </div>
+
+        <!-- Painel visual lateral -->
+        <aside class="auth-left auth-visual-side">
+          <h1>
+            Controle de produtos, categorias e estoque em um unico painel.
+          </h1>
+          <p>
+            Entre com sua conta para gerenciar o inventario com seguranca e
+            acompanhar os indicadores em tempo real.
+          </p>
+          <img
+            class="auth-hero"
+            src="../assets/images/Imagem_login.png"
+            alt="Ilustracao de controle de inventario"
+          />
+        </aside>
+      </section>
+
+      <footer class="login-footer">Feito por Patrick Souza</footer>
+    </main>
+
+    <script>
+      (function () {
+        const form = document.getElementById("loginForm");
+        const errorAlert = document.getElementById("errorAlert");
+        const forgotBtn = document.getElementById("forgotPasswordBtn");
+        const demoCredentials = document.getElementById("demoCredentials");
+
+        function showError(msg) {
+          errorAlert.textContent = msg;
+          errorAlert.style.display = "block";
+        }
+
+        function hideError() {
+          errorAlert.style.display = "none";
+        }
+
+        // Validação básica no submit — adapte para sua API/backend
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          hideError();
+
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value;
+
+          if (!email || !password) {
+            showError("Preencha e-mail e senha.");
+            return;
+          }
+
+          // TODO: substitua o bloco abaixo pela chamada real à sua API
+          // Exemplo:
+          // fetch('/api/login', {
+          //     method: 'POST',
+          //     headers: { 'Content-Type': 'application/json' },
+          //     body: JSON.stringify({ email, password })
+          // })
+          // .then(r => r.json())
+          // .then(data => {
+          //     if (data.success) window.location.href = '/painel';
+          //     else showError(data.message || 'Credenciais invalidas.');
+          // })
+          // .catch(() => showError('Erro de conexao. Tente novamente.'));
+
+          showError("Credenciais invalidas.");
+        });
+
+        // Botão "Esqueci minha senha"
+        forgotBtn.addEventListener("click", function () {
+          const confirmed = window.confirm(
+            "Deseja recuperar a senha do ambiente de demonstracao?",
+          );
+          if (!confirmed) return;
+
+          demoCredentials.style.outline = "2px solid #2e8ae6";
+          demoCredentials.style.outlineOffset = "2px";
+          demoCredentials.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+          window.alert("Use as credenciais abaixo para entrar no sistema.");
+        });
+      })();
+    </script>
+  </body>
+</html>

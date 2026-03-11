@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClickTime V3.1 - Redirecionando...</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-family:
+          "Outfit",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+      }
+
+      .loading-container {
+        text-align: center;
+        color: white;
+      }
+
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: 1.5rem;
+      }
+
+      p {
+        margin: 0;
+        opacity: 0.9;
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <h1>ClickTime V3.1</h1>
+      <p>Carregando novo sistema de login...</p>
+    </div>
+
+    <script>
+      // Redireciona para o novo login após 500ms
+      setTimeout(() => {
+        window.location.href = "./app/html/login.html";
+      }, 500);
+    </script>
+  </body>
+</html>

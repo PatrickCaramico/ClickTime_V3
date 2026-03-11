@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visualizador - Sistema de Admin</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family:
+          "Outfit",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      .top-nav {
+        margin-bottom: 14px;
+      }
+      .back-btn {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: background 0.2s ease;
+      }
+      .back-btn:hover {
+        background: rgba(255, 255, 255, 0.24);
+      }
+      h1 {
+        text-align: center;
+        color: white;
+        margin-bottom: 30px;
+        font-size: 2.5rem;
+      }
+      .content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+      .panel {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      }
+      .panel h2 {
+        color: #333;
+        margin-bottom: 20px;
+        border-bottom: 3px solid;
+        padding-bottom: 10px;
+      }
+      .panel.user h2 {
+        border-color: #2e8ae6;
+      }
+      .panel.admin h2 {
+        border-color: #9b59b6;
+      }
+      .state {
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+        border-left: 4px solid;
+      }
+      .panel.user .state {
+        border-color: #2e8ae6;
+      }
+      .panel.admin .state {
+        border-color: #9b59b6;
+      }
+      .state-label {
+        font-weight: 600;
+        color: #333;
+        display: block;
+        margin-bottom: 8px;
+      }
+      .state-value {
+        font-family: "Courier New", monospace;
+        color: #666;
+        font-size: 0.9rem;
+      }
+      .section {
+        margin: 20px 0;
+      }
+      .section-title {
+        font-size: 0.9rem;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+      .element-list {
+        background: #f9f9f9;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .element {
+        padding: 12px 15px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .element:last-child {
+        border-bottom: none;
+      }
+      .element-name {
+        font-weight: 500;
+        color: #333;
+      }
+      .element-status {
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 4px 12px;
+        border-radius: 20px;
+      }
+      .recent-users-list {
+        background: #f9f9f9;
+        border: 1px solid #ececec;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .recent-user-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 12px 14px;
+        border-bottom: 1px solid #ececec;
+      }
+      .recent-user-item:last-child {
+        border-bottom: none;
+      }
+      .recent-user-main {
+        color: #2f3c4f;
+        font-weight: 600;
+      }
+      .recent-user-meta {
+        color: #5f6f84;
+        font-size: 0.88rem;
+      }
+      .recent-user-role {
+        align-self: center;
+        font-size: 0.8rem;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 4px 10px;
+        color: #fff;
+      }
+      .recent-user-role.role-admin {
+        background: #9b59b6;
+      }
+      .recent-user-role.role-user {
+        background: #2e8ae6;
+      }
+      .recent-users-empty {
+        padding: 14px;
+        color: #627287;
+        font-size: 0.92rem;
+      }
+      .status-visible {
+        background: #d4edda;
+        color: #155724;
+      }
+      .status-hidden {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      .tab-buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .tab-btn {
+        padding: 10px 20px;
+        border: 2px solid;
+        background: white;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s;
+      }
+      .tab-btn.user {
+        border-color: #2e8ae6;
+        color: #2e8ae6;
+      }
+      .tab-btn.admin {
+        border-color: #9b59b6;
+        color: #9b59b6;
+      }
+      .tab-btn.active {
+        background: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .flow-diagram {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin: 20px 0;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      }
+      .flow-item {
+        background: #f0f0f0;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 10px 0;
+        border-left: 4px solid #2e8ae6;
+      }
+      .flow-item.admin {
+        border-color: #9b59b6;
+      }
+      .flow-item.key {
+        border-color: #ff8c42;
+        background: #fff8f0;
+      }
+      .flow-item h4 {
+        color: #333;
+        margin-bottom: 5px;
+      }
+      .flow-item p {
+        color: #666;
+        font-size: 0.9rem;
+      }
+      .code-example {
+        background: #1e1e2e;
+        color: #52ff00;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        font-size: 0.85rem;
+        overflow-x: auto;
+        margin: 10px 0;
+      }
+      .css-rule {
+        background: white;
+        border-left: 4px solid #f39c12;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 15px 0;
+      }
+      .css-rule code {
+        display: block;
+        font-family: "Courier New", monospace;
+        color: #e74c3c;
+        background: #f5f5f5;
+        padding: 10px;
+        border-radius: 4px;
+        overflow-x: auto;
+        margin: 10px 0;
+      }
+      .comparison {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin: 20px 0;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      }
+      .comparison h2 {
+        color: #333;
+        border-color: #2e8ae6;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #eee;
+      }
+      th {
+        background: #2e8ae6;
+        color: white;
+      }
+      tr:hover {
+        background: #f9f9f9;
+      }
+      .feature-yes {
+        color: #2ecc71;
+        font-weight: bold;
+      }
+      .feature-no {
+        color: #e74c3c;
+        font-weight: bold;
+      }
+      @media (max-width: 1024px) {
+        .content {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="top-nav">
+        <a href="./START.html" class="back-btn">← Voltar</a>
+      </div>
+      <h1>🎯 Visualizador - Sistema de Admin</h1>
+
+      <div class="tab-buttons">
+        <button class="tab-btn user active" onclick="switchTab('user')">
+          👤 Usuário Normal
+        </button>
+        <button class="tab-btn admin" onclick="switchTab('admin')">
+          👨‍💼 Administrador
+        </button>
+      </div>
+
+      <div class="content">
+        <div class="panel user" id="user-panel">
+          <h2>👤 Estado do Usuário Normal</h2>
+
+          <div class="section">
+            <div class="section-title">Autenticação</div>
+            <div class="state">
+              <span class="state-label">Role:</span>
+              <span class="state-value">user</span>
+            </div>
+            <div class="state">
+              <span class="state-label">Email:</span>
+              <span class="state-value">funcionario@inventario.com</span>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Classe CSS no Body</div>
+            <div class="state">
+              <span class="state-label">class="..."</span>
+              <span class="state-value"
+                >is-admin: ❌ NAO<br />is-guest: ❌ NAO</span
+              >
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Elementos Visíveis</div>
+            <div class="element-list">
+              <div class="element">
+                <span class="element-name">Painel Admin</span>
+                <span class="element-status status-hidden">❌ OCULTO</span>
+              </div>
+              <div class="element">
+                <span class="element-name">Color Picker</span>
+                <span class="element-status status-hidden">❌ OCULTO</span>
+              </div>
+              <div class="element">
+                <span class="element-name">Presets (Cores)</span>
+                <span class="element-status status-hidden">❌ OCULTO</span>
+              </div>
+              <div class="element">
+                <span class="element-name">Botão Logout</span>
+                <span class="element-status status-hidden">❌ ADMIN ONLY</span>
+              </div>
+              <div class="element">
+                <span class="element-name">Timer Principal</span>
+                <span class="element-status status-visible">✅ VISÍVEL</span>
+              </div>
+              <div class="element">
+                <span class="element-name">Frase Motivacional</span>
+                <span class="element-status status-visible">✅ VISÍVEL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">CSS Applied</div>
+            <div class="code-example">
+              body { class: "" // Sem is-admin // Sem is-guest }
+            </div>
+          </div>
+        </div>
+
+        <div class="panel admin" id="admin-panel" style="display: none">
+          <h2>👨‍💼 Estado do Administrador</h2>
+
+          <div class="section">
+            <div class="section-title">Autenticação</div>
+            <div class="state">
+              <span class="state-label">Role:</span>
+              <span class="state-value">admin</span>
+            </div>
+            <div class="state">
+              <span class="state-label">Email:</span>
+              <span class="state-value">admin@inventario.com</span>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Classe CSS no Body</div>
+            <div class="state">
+              <span class="state-label">class="..."</span>
+              <span class="state-value">is-admin: ✅ SIM</span>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Usuários criados (últimas 24h)</div>
+            <div class="recent-users-list" id="recentUsers24hList">
+              <div class="recent-users-empty">Carregando usuários...</div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Elementos Visíveis</div>
+            <div class="element-list">
+              <div class="element">
+                <span class="element-name">Painel Admin</span>
+                <span class="element-status status-visible">✅ VISÍVEL</span>
+              </div>
+              <div class="element">
+                <span class="element-name">Color Picker</span>
+                <span class="element-status status-visible">✅ VISÍVEL</span>
+              </div>
+              <div class="element">
+                <span class="element-name">Presets (Cores)</span>
+                <span class="element-status status-visible">✅ VISÍVEL</span>
+              </div>
+              <div class="element">
+                <span class="element-name">Botão Logout</span>
+                <span class="element-status status-visible">✅ VISÍVEL</span>
+              </div>
+              <div class="element">
+                <span class="element-name">Timer Principal</span>
+                <span class="element-status status-visible">✅ VISÍVEL</span>
+              </div>
+              <div class="element">
+                <span class="element-name">Frase Motivacional</span>
+                <span class="element-status status-visible">✅ VISÍVEL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">CSS Applied</div>
+            <div class="code-example">
+              body { class: "is-admin" // Ativa CSS rules especiais // Mostra
+              .admin-panel // Mostra [data-admin-only] }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-diagram">
+        <h2>📊 Fluxo Completo de Autenticação</h2>
+
+        <div class="flow-item key">
+          <h4>🔑 PASSO CRÍTICO - ONDE O MAGIC ACONTECE</h4>
+          <p>
+            No arquivo <strong>auth-system.js</strong>, na classe
+            <strong>AuthManager</strong>:
+          </p>
+          <div class="code-example">
+            login(email, password) { if (email === 'admin@inventario.com' &&
+            password === '123456') { // ⭐ AQUI DEFINE O ROLE ⭐
+            this.currentUser = new User(email, 'admin'); // Salva no
+            localStorage com role = 'admin' this.saveUser(); } }
+          </div>
+        </div>
+
+        <div class="flow-item admin">
+          <h4>1️⃣ Login com Credenciais Admin</h4>
+          <p>
+            Você digita: <code>admin@inventario.com</code> / <code>123456</code>
+          </p>
+        </div>
+
+        <div class="flow-item">
+          <h4>2️⃣ Sistema Valida</h4>
+          <p>Compara email e senha com credenciais pré-definidas</p>
+        </div>
+
+        <div class="flow-item admin">
+          <h4>3️⃣ Define Role = 'admin'</h4>
+          <p>Cria objeto de usuário com <code>role: 'admin'</code></p>
+        </div>
+
+        <div class="flow-item">
+          <h4>4️⃣ Salva no localStorage</h4>
+          <p>Persiste dados para próxima recarga</p>
+        </div>
+
+        <div class="flow-item admin">
+          <h4>5️⃣ Redireciona para sistema.html</h4>
+          <p>SweetAlert mostra sucesso e redirecion</p>
+        </div>
+
+        <div class="flow-item">
+          <h4>6️⃣ application-ui.js Carrega</h4>
+          <p>Lê localStorage e encontra <code>role: 'admin'</code></p>
+        </div>
+
+        <div class="flow-item admin">
+          <h4>7️⃣ Aplica Classe CSS</h4>
+          <p><code>document.body.classList.add('is-admin')</code></p>
+        </div>
+
+        <div class="flow-item admin">
+          <h4>8️⃣ CSS Mostra Painel Admin</h4>
+          <p><code>body.is-admin .admin-panel { display: block }</code></p>
+        </div>
+
+        <div class="flow-item">
+          <h4>✅ Resultado Final</h4>
+          <p>Painel lateral visível com customizações</p>
+        </div>
+      </div>
+
+      <div class="css-rule">
+        <h3>🎨 CSS Rules (Onde a Mágica Acontece)</h3>
+        <p>Estes CSS rules controlam o que aparece:</p>
+        <code
+          >/* Quando é admin, mostra o painel */ body.is-admin .admin-panel {
+          display: flex !important; animation: slideInRight 0.3s ease-out; } /*
+          Quando é admin, mostra elementos específicos */ body.is-admin
+          [data-admin-only], body.is-admin .admin-only { display: block
+          !important; visibility: visible !important; } /* Quando é guest,
+          escurece recursos */ body.is-guest [data-guest-restricted],
+          body.is-guest .guest-restricted { opacity: 0.4 !important;
+          pointer-events: none !important; }</code
+        >
+      </div>
+
+      <div class="comparison">
+        <h2>📋 Comparação Completa</h2>
+        <table>
+          <tr>
+            <th>Aspecto</th>
+            <th>👤 Usuário</th>
+            <th>👨‍💼 Admin</th>
+          </tr>
+          <tr>
+            <td><strong>Email</strong></td>
+            <td>funcionario@inventario.com</td>
+            <td>admin@inventario.com</td>
+          </tr>
+          <tr>
+            <td><strong>Role</strong></td>
+            <td>user</td>
+            <td>admin</td>
+          </tr>
+          <tr>
+            <td><strong>Classe CSS</strong></td>
+            <td>-</td>
+            <td>is-admin</td>
+          </tr>
+          <tr>
+            <td><strong>Painel Lateral</strong></td>
+            <td><span class="feature-no">❌ Não</span></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+          </tr>
+          <tr>
+            <td><strong>Color Picker</strong></td>
+            <td><span class="feature-no">❌ Não</span></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+          </tr>
+          <tr>
+            <td><strong>Presets Cores</strong></td>
+            <td><span class="feature-no">❌ Não</span></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+          </tr>
+          <tr>
+            <td><strong>Botão Logout</strong></td>
+            <td><span class="feature-no">❌ Não Específico</span></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+          </tr>
+          <tr>
+            <td><strong>Timer</strong></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+          </tr>
+          <tr>
+            <td><strong>Frases</strong></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+          </tr>
+          <tr>
+            <td><strong>Fullscreen</strong></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+            <td><span class="feature-yes">✅ Sim</span></td>
+          </tr>
+        </table>
+      </div>
+
+      <div
+        style="
+          background: white;
+          border-radius: 15px;
+          padding: 25px;
+          margin-top: 20px;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        "
+      >
+        <h2
+          style="
+            color: #9b59b6;
+            border-color: #9b59b6;
+            border-bottom: 3px solid #9b59b6;
+          "
+        >
+          💡 Entendimento Chave
+        </h2>
+        <div
+          style="
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+          "
+        >
+          <p style="margin: 10px 0">
+            <strong>1. O "role" é a chave:</strong> Ele determina quem é admin
+            ou não
+          </p>
+          <p style="margin: 10px 0">
+            <strong>2. localStorage persiste o role:</strong> Mesmo após uma
+            recarga, continua sabendo que é admin
+          </p>
+          <p style="margin: 10px 0">
+            <strong>3. CSS faz a mágica:</strong> Ele mostra/esconde elementos
+            baseado na classe do body
+          </p>
+          <p style="margin: 10px 0">
+            <strong>4. Logout limpa tudo:</strong> Remove role, localStorage e
+            redireciona para login
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function escapeHtml(value) {
+        return String(value || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\"/g, "&quot;");
+      }
+
+      function renderRecentRegisteredUsers() {
+        const container = document.getElementById("recentUsers24hList");
+        if (!container) return;
+
+        const key = "clicktime_registered_users";
+        const ttlMs = 24 * 60 * 60 * 1000;
+
+        let users = [];
+        try {
+          const raw = localStorage.getItem(key);
+          users = raw ? JSON.parse(raw) : [];
+          if (!Array.isArray(users)) users = [];
+        } catch (_) {
+          users = [];
+        }
+
+        const now = Date.now();
+        const filtered = users.filter(
+          (item) =>
+            item &&
+            Number.isFinite(Number(item.createdAt)) &&
+            now - Number(item.createdAt) <= ttlMs,
+        );
+
+        if (filtered.length !== users.length) {
+          localStorage.setItem(key, JSON.stringify(filtered));
+        }
+
+        if (filtered.length === 0) {
+          container.innerHTML =
+            '<div class="recent-users-empty">Nenhum usuário criado nas últimas 24h.</div>';
+          return;
+        }
+
+        const sorted = filtered.sort(
+          (a, b) => Number(b.createdAt) - Number(a.createdAt),
+        );
+
+        container.innerHTML = sorted
+          .map((item) => {
+            const roleLabel =
+              item.role === "admin" ? "Perfil Admin" : "Perfil Usuário";
+            const createdAtLabel = new Date(
+              Number(item.createdAt),
+            ).toLocaleString("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+
+            return `
+              <div class="recent-user-item">
+                <div>
+                  <div class="recent-user-main">${escapeHtml(item.fullName)} | ${roleLabel}</div>
+                  <div class="recent-user-meta">${escapeHtml(item.email)} • criado em ${createdAtLabel}</div>
+                </div>
+                <span class="recent-user-role ${item.role === "admin" ? "role-admin" : "role-user"}">${item.role.toUpperCase()}</span>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      function switchTab(tab) {
+        const userPanel = document.getElementById("user-panel");
+        const adminPanel = document.getElementById("admin-panel");
+        const userBtn = document.querySelector(".tab-btn.user");
+        const adminBtn = document.querySelector(".tab-btn.admin");
+
+        if (tab === "user") {
+          userPanel.style.display = "block";
+          adminPanel.style.display = "none";
+          userBtn.classList.add("active");
+          adminBtn.classList.remove("active");
+        } else {
+          userPanel.style.display = "none";
+          adminPanel.style.display = "block";
+          userBtn.classList.remove("active");
+          adminBtn.classList.add("active");
+        }
+      }
+
+      renderRecentRegisteredUsers();
+    </script>
+  </body>
+</html>
